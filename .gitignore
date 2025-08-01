@@ -2,7 +2,7 @@
 *.bin
 *.pt
 *.safetensors
-*.pkl
+
 *.h5
 __pycache__/
 .env
