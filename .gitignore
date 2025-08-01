@@ -1,0 +1,13 @@
+# Ignore model files and other large files
+*.bin
+*.pt
+*.safetensors
+*.pkl
+*.h5
+__pycache__/
+.env
+*.jpg
+*.png
+/static/uploads/
+models/
+Split_smol/

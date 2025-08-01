@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Skin Disease Analyzer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      padding: 40px;
+    }
+    h1 {
+      text-align: center;
+      color: #1f2937;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    input[type="text"],
+    input[type="file"],
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1e40af;
+    }
+    .output {
+      max-width: 500px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    .output p {
+      margin: 8px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Skin Disease Analyzer</h1>
+  <form id="chatForm">
+    <label for="user_input">Enter symptoms (optional):</label>
+    <input type="text" name="user_input" id="user_input" placeholder="e.g., itching, redness, dry skin">
+
+    <label for="image">Upload skin image (optional):</label>
+    <input type="file" name="image" id="image" accept="image/*">
+
+    <button type="submit">Analyze</button>
+  </form>
+
+  <div class="output" id="output" style="display: none;">
+    <h3>Results</h3>
+    <p><strong>ML Prediction (Symptoms):</strong> <span id="predictionText">-</span></p>
+    <p><strong>DL Prediction (Image):</strong> <span id="predictionImage">-</span></p>
+    <p><strong>Chatbot Response:</strong> <span id="chatbotResponse">-</span></p>
+  </div>
+
+  <script>
+    const form = document.getElementById('chatForm');
+    const outputDiv = document.getElementById('output');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      const response = await fetch('/chat', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        document.getElementById('predictionText').innerText = data.prediction_text || 'N/A';
+        document.getElementById('predictionImage').innerText = data.prediction_image || 'N/A';
+        document.getElementById('chatbotResponse').innerText = data.response || 'N/A';
+        outputDiv.style.display = 'block';
+      } else {
+        alert(data.error || 'Something went wrong.');
+      }
+    });
+  </script>
+</body>
+</html>
