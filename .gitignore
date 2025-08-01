@@ -9,5 +9,5 @@ __pycache__/
 *.jpg
 *.png
 /static/uploads/
-models/
+
 Split_smol/
